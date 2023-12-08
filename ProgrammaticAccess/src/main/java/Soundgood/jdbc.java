@@ -90,7 +90,7 @@ public class jdbc {
 
             switch (alt){
                 case 1:
-                    System.out.println("1");
+                    System.out.println("112333");
                     new jdbc().accessDB();
                     // Skriv kod som gör uppgift 1 chrfra
                     break;
