@@ -33,7 +33,7 @@ public class jdbc {
     private Connection createConnection() throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/simplejdbc",
-                "postgres", "");
+                "postgres", "postgres");
         // Class.forName("com.mysql.cj.jdbc.Driver");
         // return DriverManager.getConnection(
         // "jdbc:mysql://localhost:3306/simplejdbc?serverTimezone=UTC",
@@ -97,11 +97,12 @@ public class jdbc {
                 case 2:
                     System.out.println("2");
                     // Skriv kod som gör uppgift 1 Ludwig
-                    System.out.println("Hej 2");
                     break;
                 case 3:
                     System.out.printf("3");
                     // Skriv kod som gör uppgift 1 Harry
+
+                    System.out.println("Hammarby är bäst");
                     break;
                 case 4:
                     System.out.println("4");
