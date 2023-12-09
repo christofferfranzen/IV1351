@@ -3,6 +3,7 @@ package Soundgood.view;
 import Soundgood.controller.InstrumentController;
 import Soundgood.controller.RentalController;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ConsoleView {
@@ -16,15 +17,18 @@ public class ConsoleView {
         this.rentalController = rentalController;
     }
 
-    public void start() {
+    public void start() throws SQLException {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("Menu \n 1. List instruments \n 2. Rent instrument \n 3. Terminate rental \n 4. Exit");
+            System.out.println("Menu \n 1. List instruments of a certain kind \n 2. Rent instrument \n 3. Terminate rental \n 4. Exit");
             int choice = Integer.valueOf(scanner.nextLine());
             switch (choice) {
                 case 1:
-                    instrumentController.listInstruments();
+                    System.out.println("What type of instrument are you interested in (e.g., Guitar, Saxophone)?");
+                    String instrument = scanner.nextLine();
+                    System.out.println("Based on your preferences, we have found the following instrument that matches your request:");
+                    instrumentController.listInstruments(instrument);
                     break;
                 case 2:
                     //TODO: Task 2 Ludwig
