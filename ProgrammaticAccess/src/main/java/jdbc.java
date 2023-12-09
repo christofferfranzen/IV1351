@@ -1,5 +1,3 @@
-package Soundgood;
-
 import java.sql.*;
 import java.util.Scanner;
 

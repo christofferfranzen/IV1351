@@ -1,5 +1,9 @@
 package Soundgood.dao;
 
-public class InstrumentDAO {
-    // Implement instrument data access logic
+import Soundgood.model.Instrument;
+
+import java.util.List;
+
+public interface InstrumentDAO {
+    List<Instrument> getAllInstruments();
 }
