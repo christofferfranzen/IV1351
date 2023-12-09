@@ -99,7 +99,7 @@ public class jdbc {
                     // Skriv kod som gör uppgift 1 Ludwig
                     break;
                 case 3:
-                    System.out.printf("3");
+                    System.out.print("3");
                     // Skriv kod som gör uppgift 1 Harry
 
                     System.out.println("Hammarby är bäst");
