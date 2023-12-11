@@ -8,22 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InstrumentDAOImpl implements InstrumentDAO {
-    private static final String GET_ALL_INSTRUMENTS_SQL = "SELECT \n" +
-            "  i.instrument_id,\n" +
-            "  i.serial_number,\n" +
-            "  ir.brand,\n" +
-            "  ir.price,\n" +
-            "  ir.instrument_type_id\n" +
-            "FROM \n" +
-            "  instrument i\n" +
-            "JOIN\n" +
-            "  instrument_information_relation iir ON i.instrument_id = iir.instrument_id\n" +
-            "JOIN\n" +
-            "  instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id\n" +
-            "JOIN\n" +
-            "  rental r ON i.instrument_id = r.instrument_id\n" +
-            "WHERE\n" +
-            "  CURRENT_DATE NOT BETWEEN r.start_date AND r.end_date";
+    private static final String GET_AVAILABLE_INSTRUMENTS_SQL =
+                    "SELECT i.instrument_id, i.serial_number, ir.brand, ir.price, ir.instrument_type_id " +
+                    "FROM instrument i " +
+                    "JOIN instrument_information_relation iir ON i.instrument_id = iir.instrument_id " +
+                    "JOIN instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id " +
+                    "JOIN rental r ON i.instrument_id = r.instrument_id " +
+                    "WHERE CURRENT_DATE NOT BETWEEN r.start_date AND r.end_date";
+
     private static final String GET_ALL_INSTRUMENT_TYPE_ID_SQL = "SELECT * FROM instrument_type";
 
     @Override
@@ -61,7 +53,7 @@ public class InstrumentDAOImpl implements InstrumentDAO {
         List<Instrument> instruments = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(GET_ALL_INSTRUMENTS_SQL)) {
+             ResultSet resultSet = statement.executeQuery(GET_AVAILABLE_INSTRUMENTS_SQL)) {
 
             while (resultSet.next()) {
                 if (resultSet.getInt("instrument_type_id") == instrumentTypeId) {
