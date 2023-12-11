@@ -19,7 +19,11 @@ public class InstrumentDAOImpl implements InstrumentDAO {
             "JOIN\n" +
             "  instrument_information_relation iir ON i.instrument_id = iir.instrument_id\n" +
             "JOIN\n" +
-            "  instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id";
+            "  instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id\n" +
+            "JOIN\n" +
+            "  rental r ON i.instrument_id = r.instrument_id\n" +
+            "WHERE\n" +
+            "  CURRENT_DATE NOT BETWEEN r.start_date AND r.end_date";
     private static final String GET_ALL_INSTRUMENT_TYPE_ID_SQL = "SELECT * FROM instrument_type";
 
     @Override
