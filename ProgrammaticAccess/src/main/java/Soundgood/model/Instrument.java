@@ -2,21 +2,19 @@ package Soundgood.model;
 
 public class Instrument {
     private int instrumentId;
-    private int instrumentTypeId;
     private String serialNumber;
     private String brand;
-    private int quantity;
     private int rentalPrice;
+    private int instrumentTypeId;
 
     // Constructors, getters, and setters
 
-    public Instrument(int instrumentId, int instrumentTypeId, String serialNumber, String brand, int quantity, int rentalPrice) {
+    public Instrument(int instrumentId, String serialNumber, String brand, int rentalPrice, int instrumentTypeId) {
         this.instrumentId = instrumentId;
-        this.instrumentTypeId = instrumentTypeId;
         this.serialNumber = serialNumber;
         this.brand = brand;
-        this.quantity = quantity;
         this.rentalPrice = rentalPrice;
+        this.instrumentTypeId = instrumentTypeId;
     }
 
     // Getters and setters for each field
@@ -51,14 +49,6 @@ public class Instrument {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public int getRentalPrice() {

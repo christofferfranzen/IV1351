@@ -8,7 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InstrumentDAOImpl implements InstrumentDAO {
-    private static final String GET_ALL_INSTRUMENTS_SQL = "SELECT * FROM instrument";
+    private static final String GET_ALL_INSTRUMENTS_SQL = "SELECT \n" +
+            "  i.instrument_id,\n" +
+            "  i.serial_number,\n" +
+            "  ir.brand,\n" +
+            "  ir.price,\n" +
+            "  ir.instrument_type_id\n" +
+            "FROM \n" +
+            "  instrument i\n" +
+            "JOIN\n" +
+            "  instrument_information_relation iir ON i.instrument_id = iir.instrument_id\n" +
+            "JOIN\n" +
+            "  instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id";
     private static final String GET_ALL_INSTRUMENT_TYPE_ID_SQL = "SELECT * FROM instrument_type";
 
     @Override
@@ -64,11 +75,10 @@ public class InstrumentDAOImpl implements InstrumentDAO {
     private Instrument mapResultSetToInstrument(ResultSet resultSet) throws SQLException {
         return new Instrument(
                 resultSet.getInt("instrument_id"),
-                resultSet.getInt("instrument_type_id"),
                 resultSet.getString("serial_number"),
                 resultSet.getString("brand"),
-                resultSet.getInt("quantity"),
-                resultSet.getInt("rental_price")
+                resultSet.getInt("price"),
+                resultSet.getInt("instrument_type_id")
         );
     }
 }
