@@ -7,21 +7,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class RentalDAOImpl implements RentalDAO {
     private static final String GET_RENTAL_BY_STUDENT_AND_INSTRUMENT_SQL = "SELECT * FROM rental WHERE student_id = ? AND instrument_id = ?";
     private static final String UPDATE_RENTAL_SQL = "UPDATE rental SET start_date = ?, end_date = ? WHERE student_id = ? AND instrument_id = ?";
-    private static final String GET_ALL_RENTALS_SQL = "SELECT * FROM rental";
-
-    private final Connection connection;
-
-    public RentalDAOImpl() throws SQLException, ClassNotFoundException {
-        this.connection = DBUtil.getConnection();
-    }
-
+    private static final String INSERT_RENTAL_SQL = "INSERT INTO rental (student_id, instrument_id, start_date, end_date) VALUES (?, ?, ?, ?)";
+    private static final String COUNT_RENTALS_SQL = "SELECT COUNT(*) FROM rental WHERE student_id = ?";
     @Override
     public Rental getRental(int studentId, int instrumentId) {
         Rental rental = null;
@@ -46,31 +38,6 @@ public class RentalDAOImpl implements RentalDAO {
     }
 
     @Override
-    public List<Rental> getAllRentals() {
-        List<Rental> rentals = new ArrayList<>();
-
-        try (Connection connection = DBUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_RENTALS_SQL)) {
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int studentId = resultSet.getInt("student_id");
-                int instrumentId = resultSet.getInt("instrument_id");
-                Date startDate = resultSet.getDate("start_date");
-                Date endDate = resultSet.getDate("end_date");
-
-                Rental rental = new Rental(studentId, instrumentId, startDate, endDate);
-                rentals.add(rental);
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return rentals;
-    }
-
-    @Override
     public void updateRental(Rental rental) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_RENTAL_SQL)) {
@@ -88,9 +55,8 @@ public class RentalDAOImpl implements RentalDAO {
 
     @Override
     public void rentInstrument(Rental rental) {
-        try {
-            String sql = "INSERT INTO rental (student_id, instrument_id, start_date, end_date) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = DBUtil.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RENTAL_SQL)) {
                 preparedStatement.setInt(1, rental.getStudentId());
                 preparedStatement.setInt(2, rental.getInstrumentId());
                 preparedStatement.setDate(3, new java.sql.Date(rental.getStartDate().getTime()));
@@ -98,27 +64,27 @@ public class RentalDAOImpl implements RentalDAO {
 
                 preparedStatement.executeUpdate();
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
-    public int numberOfRentals(int studentId) {
-        try {
-            String sql = "SELECT COUNT(*) FROM rental WHERE student_id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setInt(1, studentId);
+    public int numberOfRentals(int studentId) throws SQLException, ClassNotFoundException {
+        try (Connection connection = DBUtil.getConnection()){
+            try {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(COUNT_RENTALS_SQL)) {
+                    preparedStatement.setInt(1, studentId);
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return resultSet.getInt(1);
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            return resultSet.getInt(1);
+                        }
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return 0;
     }

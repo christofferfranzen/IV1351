@@ -1,5 +1,6 @@
 package Soundgood.view;
 
+import Soundgood.controller.RentalController;
 import Soundgood.model.Rental;
 
 import java.text.ParseException;
@@ -10,9 +11,22 @@ import java.util.Scanner;
 public class RentalView {
 
     private final Scanner scanner;
+    private final RentalController rentalController;
 
-    public RentalView() {
+    public RentalView(RentalController rentalController) {
         this.scanner = new Scanner(System.in);
+        this.rentalController = rentalController;
+    }
+
+    public void showRentInstrumentView(){
+        Rental rental = createRental();
+        if (rental != null) {
+            try {
+                rentalController.rentInstrument(rental.getStudentId(), rental.getInstrumentId(),rental.getStartDate(),rental.getEndDate());
+            } catch (RuntimeException e) {
+                System.out.println("Error renting instrument: " + e.getMessage());
+            }
+        }
     }
 
     public Rental createRental() {

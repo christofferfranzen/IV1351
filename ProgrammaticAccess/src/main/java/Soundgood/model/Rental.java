@@ -21,24 +21,12 @@ public class Rental {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
     public int getInstrumentId() {
         return instrumentId;
     }
 
-    public void setInstrumentId(int instrumentId) {
-        this.instrumentId = instrumentId;
-    }
-
     public Date getStartDate() {
         return start_date;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.start_date = startDate;
     }
 
     public Date getEndDate() {
@@ -46,7 +34,6 @@ public class Rental {
     }
 
     public void setEndDate(Date endDate) {
-
         this.end_date = endDate;
     }
 }
