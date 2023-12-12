@@ -1,5 +1,13 @@
 package Soundgood.dao;
 
-public class RentalDAO {
-    // Implement rental data access logic
+import Soundgood.model.Rental;
+
+import java.util.List;
+
+public interface RentalDAO {
+    List<Rental> getAllRentals();
+
+    void updateRental(Rental rental);
+
+    Rental getRental(int studentId, int instrumentId);
 }
