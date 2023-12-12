@@ -10,11 +10,13 @@ public class ConsoleView {
     private final Scanner scanner;
     private final InstrumentController instrumentController;
     private final RentalController rentalController;
+    private final TerminateRentalView terminateRentalView;
 
     public ConsoleView(InstrumentController instrumentController, RentalController rentalController) {
         this.scanner = new Scanner(System.in);
         this.instrumentController = instrumentController;
         this.rentalController = rentalController;
+        this.terminateRentalView = new TerminateRentalView(rentalController);
     }
 
     public void start() throws SQLException {
@@ -31,32 +33,11 @@ public class ConsoleView {
                     instrumentController.listInstruments(instrument);
                     break;
                 case 2:
-                    //TODO: Task 2 Ludwig
-                    //rentalController.rentInstrument();
+                    // TODO: Task 2 Ludwig
+                    // rentalController.rentInstrument();
                     break;
                 case 3:
-                    //TODO: Task 3 Harry
-                    System.out.println("Do you want to terminate your rental? (yes/no)");
-                    String userInput = scanner.nextLine(); // Omvandla till gemener för enklare jämförelse
-
-                    if (userInput.equalsIgnoreCase("yes")) {
-                        // Åtgärder om användaren svarar "yes"
-                        System.out.println("Please enter your student ID:");
-                        int studentId = Integer.parseInt(scanner.nextLine());
-
-                        System.out.println("Please enter the instrument ID:");
-                        int instrumentId = Integer.parseInt(scanner.nextLine());
-
-                        rentalController.terminateRental(studentId, instrumentId);
-
-
-                    } else if (userInput.equalsIgnoreCase("no")) {
-                        // Åtgärder om användaren svarar "no"
-                        System.out.println("Continuing rental...");
-                    } else {
-                        // Felhantering om användaren svarar något annat än "yes" eller "no"
-                        System.out.println("Invalid input. Please answer with 'yes' or 'no'.");
-                    }
+                    terminateRentalView.showTerminateRentalView();
                     break;
                 case 4:
                     exit = true;

@@ -5,6 +5,7 @@ import Soundgood.model.Rental;
 
 import java.util.Date;
 
+
 public class RentalController {
     private final RentalDAO rentalDAO;
 
@@ -17,20 +18,20 @@ public class RentalController {
         System.out.println("Renting instrument...");
     }
 
-    public void terminateRental(int studentId, int instrumentId) {
-        // Hämta uthyrningen baserat på studentId och instrumentId från databasen
-        Rental rentalToTerminate = rentalDAO.getRental(studentId, instrumentId);
+    public int terminateRental(int studentId, int instrumentId) {
+        try {
+            Rental rentalToTerminate = rentalDAO.getRental(studentId, instrumentId);
 
-        if (rentalToTerminate != null) {
-            // Uppdatera end_date till dagens datum
-            rentalToTerminate.setEndDate(new Date());
-
-            // Uppdatera uthyrningen i databasen
-            rentalDAO.updateRental(rentalToTerminate);
-
-            System.out.println("Rental terminated successfully.");
-        } else {
-            System.out.println("No rental found for the provided IDs.");
+            if (rentalToTerminate != null) {
+                rentalToTerminate.setEndDate(new Date());
+                rentalDAO.updateRental(rentalToTerminate);
+                return 0; // Success code
+            } else {
+                return 1; // No rental found
+            }
+        } catch (Exception e) {
+            // Handle or log the exception
+            return 2; // Error during termination
         }
     }
 }
