@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InstrumentDAOImpl implements InstrumentDAO {
-    private static final String GET_AVAILABLE_INSTRUMENTS_SQL =
-                    "SELECT i.instrument_id, i.serial_number, ir.brand, ir.price, ir.instrument_type_id " +
-                    "FROM instrument i " +
-                    "JOIN instrument_information_relation iir ON i.instrument_id = iir.instrument_id " +
-                    "JOIN instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id " +
-                    "JOIN rental r ON i.instrument_id = r.instrument_id " +
-                    "WHERE CURRENT_DATE NOT BETWEEN r.start_date AND r.end_date";
+    private static final String GET_AVAILABLE_INSTRUMENTS_SQL = "SELECT i.instrument_id, i.serial_number, ir.brand, ir.price, ir.instrument_type_id\n" +
+            "FROM instrument i\n" +
+            "JOIN instrument_information_relation iir ON i.instrument_id = iir.instrument_id\n" +
+            "JOIN instrument_rent ir ON iir.instrument_rent_id = ir.instrument_rent_id\n" +
+            "LEFT JOIN rental r ON i.instrument_id = r.instrument_id\n" +
+            "WHERE (CURRENT_DATE NOT BETWEEN r.start_date AND r.end_date) OR (r.start_date IS NULL OR CURRENT_DATE = r.end_date);\n";
 
     private static final String GET_ALL_INSTRUMENT_TYPE_ID_SQL = "SELECT * FROM instrument_type";
 

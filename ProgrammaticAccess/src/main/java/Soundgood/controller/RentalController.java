@@ -5,7 +5,6 @@ import Soundgood.model.Rental;
 
 import java.util.Date;
 
-
 public class RentalController {
     private final RentalDAO rentalDAO;
 
