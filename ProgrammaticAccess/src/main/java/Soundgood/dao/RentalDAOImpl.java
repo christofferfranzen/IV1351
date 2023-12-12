@@ -16,6 +16,12 @@ public class RentalDAOImpl implements RentalDAO {
     private static final String UPDATE_RENTAL_SQL = "UPDATE rental SET start_date = ?, end_date = ? WHERE student_id = ? AND instrument_id = ?";
     private static final String GET_ALL_RENTALS_SQL = "SELECT * FROM rental";
 
+    private final Connection connection;
+
+    public RentalDAOImpl() throws SQLException, ClassNotFoundException {
+        this.connection = DBUtil.getConnection();
+    }
+
     @Override
     public Rental getRental(int studentId, int instrumentId) {
         Rental rental = null;
@@ -78,5 +84,42 @@ public class RentalDAOImpl implements RentalDAO {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void rentInstrument(Rental rental) {
+        try {
+            String sql = "INSERT INTO rental (student_id, instrument_id, start_date, end_date) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, rental.getStudentId());
+                preparedStatement.setInt(2, rental.getInstrumentId());
+                preparedStatement.setDate(3, new java.sql.Date(rental.getStartDate().getTime()));
+                preparedStatement.setDate(4, new java.sql.Date(rental.getEndDate().getTime()));
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public int numberOfRentals(int studentId) {
+        try {
+            String sql = "SELECT COUNT(*) FROM rental WHERE student_id = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, studentId);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

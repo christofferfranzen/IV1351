@@ -23,39 +23,19 @@ public class Instrument {
         return instrumentId;
     }
 
-    public void setInstrumentId(int instrumentId) {
-        this.instrumentId = instrumentId;
-    }
-
     public int getInstrumentTypeId() {
         return instrumentTypeId;
-    }
-
-    public void setInstrumentTypeId(int instrumentTypeId) {
-        this.instrumentTypeId = instrumentTypeId;
     }
 
     public String getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public int getRentalPrice() {
         return rentalPrice;
-    }
-
-    public void setRentalPrice(int rentalPrice) {
-        this.rentalPrice = rentalPrice;
     }
 }

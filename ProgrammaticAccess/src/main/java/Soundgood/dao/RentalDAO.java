@@ -10,4 +10,8 @@ public interface RentalDAO {
     void updateRental(Rental rental);
 
     Rental getRental(int studentId, int instrumentId);
+
+    void rentInstrument(Rental rental);
+
+    int numberOfRentals(int studentId);
 }

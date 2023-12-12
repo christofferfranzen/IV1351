@@ -2,6 +2,7 @@ package Soundgood.view;
 
 import Soundgood.controller.InstrumentController;
 import Soundgood.controller.RentalController;
+import Soundgood.model.Rental;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -33,8 +34,15 @@ public class ConsoleView {
                     instrumentController.listInstruments(instrument);
                     break;
                 case 2:
-                    // TODO: Task 2 Ludwig
-                    // rentalController.rentInstrument();
+                    RentalView rentalView = new RentalView();
+                    Rental rental = rentalView.createRental();
+                    if (rental != null) {
+                        try {
+                            rentalController.rentInstrument(rental.getStudentId(), rental.getInstrumentId(),rental.getStartDate(),rental.getEndDate());
+                        } catch (RuntimeException e) {
+                            System.out.println("Error renting instrument: " + e.getMessage());
+                        }
+                    }
                     break;
                 case 3:
                     terminateRentalView.showTerminateRentalView();
