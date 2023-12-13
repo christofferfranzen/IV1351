@@ -15,7 +15,7 @@ public class InstrumentController {
     }
 
     public void listInstruments(String instrument) throws SQLException {
-        List<Instrument> instruments = instrumentDAO.getAllInstruments(instrument);
+        List<Instrument> instruments = instrumentDAO.readAllInstruments(instrument);
         InstrumentView.displayInstruments(instruments);
     }
 }

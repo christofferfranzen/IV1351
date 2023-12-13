@@ -15,7 +15,7 @@ public class RentalDAOImpl implements RentalDAO {
     private static final String INSERT_RENTAL_SQL = "INSERT INTO rental (student_id, instrument_id, start_date, end_date) VALUES (?, ?, ?, ?)";
     private static final String COUNT_RENTALS_SQL = "SELECT COUNT(*) FROM rental WHERE student_id = ?";
     @Override
-    public Rental getRental(int studentId, int instrumentId) {
+    public Rental readRental(int studentId, int instrumentId) {
         Rental rental = null;
 
         try (Connection connection = DBUtil.getConnection();
@@ -54,7 +54,7 @@ public class RentalDAOImpl implements RentalDAO {
     }
 
     @Override
-    public void rentInstrument(Rental rental) {
+    public void createRental(Rental rental) {
         try (Connection connection = DBUtil.getConnection()){
             try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RENTAL_SQL)) {
                 preparedStatement.setInt(1, rental.getStudentId());
@@ -70,7 +70,7 @@ public class RentalDAOImpl implements RentalDAO {
     }
 
     @Override
-    public int numberOfRentals(int studentId) throws SQLException, ClassNotFoundException {
+    public int readNumberOfRentals(int studentId) throws SQLException, ClassNotFoundException {
         try (Connection connection = DBUtil.getConnection()){
             try {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(COUNT_RENTALS_SQL)) {

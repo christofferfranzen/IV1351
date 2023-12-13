@@ -28,7 +28,7 @@ public class InstrumentDAOImpl implements InstrumentDAO {
     private static final String GET_ALL_INSTRUMENT_TYPE_ID_SQL = "SELECT * FROM instrument_type";
 
     @Override
-    public List<Instrument> getAllInstruments(String instrumentType) {
+    public List<Instrument> readAllInstruments(String instrumentType) {
         List<Instrument> instruments = new ArrayList<>();
 
         try (Connection connection = DBUtil.getConnection()) {
