@@ -13,7 +13,7 @@ public class RentalDAOImpl implements RentalDAO {
     private static final String GET_RENTAL_BY_STUDENT_AND_INSTRUMENT_SQL = "SELECT * FROM rental WHERE student_id = ? AND instrument_id = ?";
     private static final String UPDATE_RENTAL_SQL = "UPDATE rental SET start_date = ?, end_date = ? WHERE student_id = ? AND instrument_id = ?";
     private static final String INSERT_RENTAL_SQL = "INSERT INTO rental (student_id, instrument_id, start_date, end_date) VALUES (?, ?, ?, ?)";
-    private static final String COUNT_RENTALS_SQL = "SELECT COUNT(*) FROM rental WHERE student_id = ?";
+    private static final String COUNT_RENTALS_SQL = "SELECT COUNT(*) FROM rental WHERE student_id = ? AND end_date > CURRENT_DATE";
     @Override
     public Rental readRental(int studentId, int instrumentId) {
         Rental rental = null;
