@@ -18,14 +18,30 @@ public class RentalView {
         this.rentalController = rentalController;
     }
 
-    public void showRentInstrumentView(){
+    public void showRentInstrumentView() {
         Rental rental = createRental();
         if (rental != null) {
-            try {
-                rentalController.rentInstrument(rental.getStudentId(), rental.getInstrumentId(),rental.getStartDate(),rental.getEndDate());
-            } catch (RuntimeException e) {
-                System.out.println("Error renting instrument: " + e.getMessage());
-            }
+            int resultCode = rentalController.rentInstrument(
+                    rental.getStudentId(), rental.getInstrumentId(),
+                    rental.getStartDate(), rental.getEndDate());
+
+            handleRentInstrumentResult(resultCode);
+        }
+    }
+
+    private void handleRentInstrumentResult(int resultCode) {
+        switch (resultCode) {
+            case 0:
+                System.out.println("Instrument rented successfully.");
+                break;
+            case 1:
+                System.out.println("Student already has the maximum allowed number of rentals (2). Cannot rent more instruments.");
+                break;
+            case 2:
+                System.out.println("Error renting instrument. Please try again.");
+                break;
+            default:
+                System.out.println("Unexpected result code: " + resultCode);
         }
     }
 
@@ -47,8 +63,8 @@ public class RentalView {
 
             Rental rental = new Rental(studentID, instrumentID, startDate, endDate);
 
-            // Print the entered data
-            System.out.println("Rental created: " + rental);
+            // No printout in the controller, so comment out the following line
+            // System.out.println("Rental created: " + rental);
 
             return rental;
         } catch (ParseException e) {

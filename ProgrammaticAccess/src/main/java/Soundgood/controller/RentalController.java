@@ -29,7 +29,7 @@ public class RentalController {
         }
     }
 
-    public void rentInstrument(int studentId, int instrumentId, java.util.Date startDate, java.util.Date endDate) {
+    public int rentInstrument(int studentId, int instrumentId, java.util.Date startDate, java.util.Date endDate) {
         try {
             // Check the number of existing rentals for the student
             int existingRentals = rentalDAO.readNumberOfRentals(studentId);
@@ -37,17 +37,16 @@ public class RentalController {
             if (existingRentals < 2) {
                 // If the student has fewer than two rentals, proceed with the rental
                 Rental rental = new Rental(studentId, instrumentId, startDate, endDate);
-
-                // Log the rented instrument
-                System.out.println("Rented instrument: " + rental);
-
                 rentalDAO.createRental(rental);
+
+                return 0; // Success code
             } else {
                 // If the student already has two rentals, reject the rental
-                System.out.println("Student already has the maximum allowed number of rentals (2). Cannot rent more instruments.");
+                return 1; // Max rentals reached
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Log the exception or handle it appropriately
+            return 2; // Error during rental
         }
     }
 }
