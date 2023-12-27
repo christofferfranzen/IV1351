@@ -1,7 +1,6 @@
-package Soundgood.dao;
+package Soundgood.integration;
 
 import Soundgood.model.Rental;
-import Soundgood.util.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

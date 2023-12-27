@@ -1,6 +1,6 @@
 package Soundgood.controller;
 
-import Soundgood.dao.InstrumentDAO;
+import Soundgood.integration.InstrumentDAO;
 import Soundgood.model.Instrument;
 import Soundgood.view.InstrumentView;
 

@@ -1,52 +1,22 @@
 package Soundgood.controller;
 
-import Soundgood.dao.RentalDAO;
-import Soundgood.model.Rental;
+import Soundgood.integration.RentalDAO;
+import Soundgood.integration.RentalService;
 
 import java.util.Date;
 
 public class RentalController {
-    private final RentalDAO rentalDAO;
+    private final RentalService rentalService;
 
     public RentalController(RentalDAO rentalDAO) {
-        this.rentalDAO = rentalDAO;
+        this.rentalService = new RentalService(rentalDAO);
     }
 
     public int terminateRental(int studentId, int instrumentId) {
-        try {
-            Rental rentalToTerminate = rentalDAO.readRental(studentId, instrumentId);
-
-            if (rentalToTerminate != null) {
-                rentalToTerminate.setEndDate(new Date());
-                rentalDAO.updateRental(rentalToTerminate);
-                return 0; // Success code
-            } else {
-                return 1; // No rental found
-            }
-        } catch (Exception e) {
-            // Handle or log the exception
-            return 2; // Error during termination
-        }
+        return rentalService.terminateRental(studentId, instrumentId);
     }
 
-    public int rentInstrument(int studentId, int instrumentId, java.util.Date startDate, java.util.Date endDate) {
-        try {
-            // Check the number of existing rentals for the student
-            int existingRentals = rentalDAO.readNumberOfRentals(studentId);
-
-            if (existingRentals < 2) {
-                // If the student has fewer than two rentals, proceed with the rental
-                Rental rental = new Rental(studentId, instrumentId, startDate, endDate);
-                rentalDAO.createRental(rental);
-
-                return 0; // Success code
-            } else {
-                // If the student already has two rentals, reject the rental
-                return 1; // Max rentals reached
-            }
-        } catch (Exception e) {
-            // Log the exception or handle it appropriately
-            return 2; // Error during rental
-        }
+    public int rentInstrument(int studentId, int instrumentId, Date startDate, Date endDate) {
+        return rentalService.rentInstrument(studentId, instrumentId, startDate, endDate);
     }
 }

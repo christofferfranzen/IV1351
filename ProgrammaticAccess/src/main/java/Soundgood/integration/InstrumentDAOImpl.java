@@ -1,7 +1,6 @@
-package Soundgood.dao;
+package Soundgood.integration;
 
 import Soundgood.model.Instrument;
-import Soundgood.util.DBUtil;
 
 import java.sql.*;
 import java.util.ArrayList;

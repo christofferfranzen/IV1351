@@ -1,4 +1,4 @@
-package Soundgood.util;
+package Soundgood.integration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,6 +11,8 @@ public class DBUtil {
 
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
-        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        //connection.setAutoCommit(false);    // auto-commit of transactions should be turned off.
+        return connection;
     }
 }

@@ -1,4 +1,4 @@
-package Soundgood.dao;
+package Soundgood.integration;
 
 import Soundgood.model.Instrument;
 

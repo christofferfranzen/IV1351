@@ -2,8 +2,8 @@ package Soundgood;
 
 import Soundgood.controller.InstrumentController;
 import Soundgood.controller.RentalController;
-import Soundgood.dao.InstrumentDAOImpl;
-import Soundgood.dao.RentalDAOImpl;
+import Soundgood.integration.InstrumentDAOImpl;
+import Soundgood.integration.RentalDAOImpl;
 import Soundgood.view.ConsoleView;
 
 import java.sql.SQLException;
