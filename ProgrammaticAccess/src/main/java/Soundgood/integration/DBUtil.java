@@ -12,7 +12,17 @@ public class DBUtil {
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-        //connection.setAutoCommit(false);    // auto-commit of transactions should be turned off.
+        connection.setAutoCommit(false);    // auto-commit of transactions should be turned off.
         return connection;
+    }
+
+    public static void closeConnection(Connection connection) {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
